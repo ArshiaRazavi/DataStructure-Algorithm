@@ -2,56 +2,56 @@
 // Created by seyedarshia.razavi on 2024-09-26.
 //
 
-// #include <iostream>
-// using namespace std;
-
 #include <cstdio>
 #include <cstdlib>
 
 
-// void count_sort(int A[], int size) {
-//     // find the maximum
-//     int A_max = A[0];
-//     for (int i = 0; i < size; i++) {
-//         if (A[i] > A_max)
-//             A_max = A[i];
-//     }
-//
-//     // Initialize count array
-//     int count[A_max+1] = {0};
-//
-//     // Counting
-//     for (int i = 0; i < size; i++) {
-//         count[A[i]] ++;
-//     }
-//
-//     int output[size] = {0};
-//     int counter = 0;
-//     // Rearranging the array
-//     for (int i = 0; i < A_max+1; i++) {
-//         // cout << count[i] << endl << endl;
-//         for (int j = 0; j < count[i]; j++) {
-//             // cout << i << " ";
-//             // cout << counter << endl;
-//             output[counter] = i;
-//             counter++;
-//         }
-//         // cout << endl;
-//     }
-//
-//     // Printing the output
-//     for (int i = 0; i < size; i++) {
-//         cout << output[i] << " ";
-//     }
-// }
+void count_sort(int *A, int size) {
+    if (size == 0) return;  // Edge case: empty array
+
+    // Find the maximum value in A
+    int max = A[0];
+    for (int i = 1; i < size; i++)
+        if (A[i] > max) max = A[i];
+
+    // Allocate memory for count array
+    int *count = (int*) malloc((max + 1) * sizeof(int));
+    if (count == nullptr) {
+        printf("Memory allocation failed!\n");
+        return;
+    }
+
+    // Initialize count array to 0
+    for (int i = 0; i <= max; i++)
+        count[i] = 0;
+
+
+    // Count occurrences of each element in A
+    for (int i = 0; i < size; i++)
+        count[A[i]]++;
+
+
+    int counter = 0;
+    // Rearrange elements in A based on counts
+    for (int i = 0; i <= max; i++)
+        for (;count[i] > 0;count[i]--)
+            A[counter++] = i;
+
+    // Free dynamically allocated memory
+    free(count);
+}
 
 int main() {
+    int A[] = {1, 12, 30, 4, 4, 3, 1, 4, 0, 10};
+    int size = sizeof(A) / sizeof(int);
 
-    // int A[] = {1, 2, 3, 4, 4, 3, 1, 4};
-    // int size = sizeof(A) / sizeof(int);
-    //
-    // count_sort(A, size);
+    printf("Initial Array:\n");
+    for (int i = 0; i < size; i++)
+        printf("%d ", A[i]);
 
-    int a = 0b10111;
-    printf("%d", a);
+    count_sort(A, size);
+
+    printf("\nSorted Array:\n");
+    for (int i = 0; i < size; i++)
+        printf("%d ", A[i]);
 }
